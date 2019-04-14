@@ -1,2 +1,4 @@
-# symfony-doctrine-database
-Playing with Symfony and Doctrine
+symfony_project
+===============
+
+A Symfony project created on April 14, 2019, 6:47 pm.
