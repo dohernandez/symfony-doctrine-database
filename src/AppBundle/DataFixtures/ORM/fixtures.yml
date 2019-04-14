@@ -1,0 +1,6 @@
+AppBundle\Entity\Product:
+    product{1..20}:
+        name: <word()>
+        description: <paragraph(3, true)>
+        price: <randomFloat(2, 10, 1000)>
+        isDeleted: <boolean(18)>
