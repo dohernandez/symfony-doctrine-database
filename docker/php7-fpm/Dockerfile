@@ -6,6 +6,9 @@ MAINTAINER Darien Hernandez Gonzalez <dohernandez@gmail.com>
 ARG TIMEZONE
 RUN echo "Timezone: ${TIMEZONE}"
 
+ARG SERVER_NAME
+RUN echo "Server name: ${SERVER_NAME}"
+
 RUN apt-get update && apt-get install -y \
     openssl \
     git \
@@ -38,4 +41,4 @@ RUN pecl install xdebug \
 # Define Symfony bin/console alias
 RUN echo 'alias sf3="php bin/console"' >> ~/.bashrc
 
-WORKDIR /var/www/symfony
+WORKDIR /var/www/${SERVER_NAME}

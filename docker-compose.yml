@@ -17,6 +17,7 @@ services:
         build:
             context: ./docker/php7-fpm
             args:
+                SERVER_NAME: ${SERVER_NAME}
                 TIMEZONE: ${TIMEZONE}
         volumes:
             - .:/var/www/${SERVER_NAME}
