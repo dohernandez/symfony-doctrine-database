@@ -3,29 +3,38 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Product;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProductController extends Controller
+class ProductController extends AbstractController
 {
     /**
      * @Route("/products", name="products_index")
+     * @param EntityManagerInterface $em
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction()
+    public function list(EntityManagerInterface $em)
     {
-        $repo = $this->getDoctrine()->getRepository(Product::class);
+        $repo = $em->getRepository(Product::class);
 
         /** @var Product $products */
-        $products = $repo->findAll();
+        $products = $repo->findBy(['isDeleted' => false]);
 
         return $this->render('products/index.html.twig', [
             'products' => $products
         ]);
     }
+
     /**
      * @Route("/products/{id}", name="products_delete")
+     * @param EntityManagerInterface $em
+     * @param Product $product
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAction(Product $product)
+    public function delete(EntityManagerInterface $em, Product $product)
     {
         if (!$product) {
             throw $this->createNotFoundException('Product not found');
@@ -33,7 +42,6 @@ class ProductController extends Controller
 
         $product->setIsDeleted(true);
 
-        $em = $this->getDoctrine()->getManager();
         $em->persist($product);
         $em->flush();
 
